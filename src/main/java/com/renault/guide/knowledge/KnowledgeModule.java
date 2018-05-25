@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.Arrays;
 
 @RestController
-public class KnowledgeController {
+public class KnowledgeModule {
 	private RestTemplate restTemplate = new RestTemplate();
 
 	@GetMapping("/")

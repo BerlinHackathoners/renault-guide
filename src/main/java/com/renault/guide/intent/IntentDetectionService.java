@@ -22,7 +22,6 @@ public class IntentDetectionService {
     @Autowired
     private KnowledgeController knowledgeController;
 
-
     public String getIntentAndEntity(String query) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
