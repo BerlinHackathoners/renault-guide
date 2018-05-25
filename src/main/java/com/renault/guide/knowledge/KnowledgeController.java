@@ -127,7 +127,7 @@ public class KnowledgeController {
 	/**
 	 * Calls https://en.wikipedia.org/api/rest_v1/page/summary/Louvre
 	 */
-	private String getWikiExtract(String query) throws Exception {
+	public String getWikiExtract(String query) throws Exception {
 		final URI uri = new URIBuilder()
 				.setScheme("https")
 				.setHost("en.wikipedia.org")
