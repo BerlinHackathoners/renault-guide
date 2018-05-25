@@ -1,7 +1,7 @@
 package com.renault.guide.intent;
 
 import com.renault.guide.intent.dto.ApiResponse;
-import com.renault.guide.knowledge.KnowledgeModule;
+import com.renault.guide.knowledge.KnowledgeController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class IntentDetectionService {
 	private final static String API_VERSION = "20150910";
 
 	@Autowired
-	private KnowledgeModule knowledgeController;
+	private KnowledgeController knowledgeController;
 
 	public String getIntentAndEntity(String query) throws Exception {
 		RestTemplate restTemplate = new RestTemplate();

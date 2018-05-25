@@ -2,7 +2,6 @@ package com.renault.guide.knowledge;
 
 import com.renault.guide.knowledge.domain.WikiExtract;
 import com.renault.guide.knowledge.domain.WikiResult;
-import lombok.Data;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,10 +14,13 @@ import org.springframework.web.client.RestTemplate;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
 @RestController
-public class KnowledgeModule {
+public class KnowledgeController {
 	private RestTemplate restTemplate = new RestTemplate();
 
 	@GetMapping("/")
@@ -32,13 +34,11 @@ public class KnowledgeModule {
 			return getWikiExtract(query);
 		} catch (Exception e) {
 			System.out.println("Error\n\n" + e.getMessage() + "\n" + Arrays.toString(e.getStackTrace()).replaceAll(", ", "\n"));
-			try{
+			try {
 				return getWikiExtract(getValidSearch(query));
-			} catch(Exception e1){
+			} catch (Exception e1) {
 				return "I'm sorry Johann, I couldn't find any information about " + query + ".";
 			}
-
-
 		}
 	}
 
@@ -68,16 +68,16 @@ public class KnowledgeModule {
 		return exchange.getBody().getQuery().getPages().getResult().getExtract();
 	}
 
-	private String getValidSearch(String initialQuery){
-		/*https://en.wikipedia.org/w/api.php
-		?action=opensearch
-		&search=abdellah
-		&prop=revisions
-		&rvprop=content
-		&format=json
-		&formatversion=2
-
-		 */
+	/**
+	 * https://en.wikipedia.org/w/api.php
+	 * ?action=opensearch
+	 * &search=abdellah
+	 * &prop=revisions
+	 * &rvprop=content
+	 * &format=json
+	 * &formatversion=2
+	 */
+	private String getValidSearch(String initialQuery) {
 		URI uri = null;
 		try {
 			uri = new URIBuilder()
@@ -93,33 +93,29 @@ public class KnowledgeModule {
 					.build()
 					.toURL()
 					.toURI();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
+		} catch (URISyntaxException | MalformedURLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(uri == null ? "Problem sir": uri.toString());
+		System.out.println(uri == null ? "I'm sorry, I don't understand " : uri.toString());
 
 		HttpEntity<String> entity = new HttpEntity<>(new HttpHeaders());
 
-
-		ResponseEntity<String> exchange =
-				restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
+		ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
 
 		String result = exchange.getBody();
-		StringTokenizer st = new StringTokenizer(result,"[");
+		StringTokenizer st = new StringTokenizer(result, "[");
 		List<String> list = new ArrayList<>();
-		while(st.hasMoreTokens()){
+		while (st.hasMoreTokens()) {
 			list.add(st.nextToken());
 		}
-		System.out.println("done: " + list.get(1));
+		System.out.println("Main result: " + list.get(1));
 		//System.out.println(result);
 		StringTokenizer st1 = new StringTokenizer(list.get(1), ",");
 		List<String> list1 = new ArrayList<>();
-		while(st1.hasMoreTokens()){
+		while (st1.hasMoreTokens()) {
 			list1.add(st1.nextToken());
 		}
-		String result1  = list1.get(0);
+		String result1 = list1.get(0);
 		result1 = result1.replaceAll("\"", "");
 		return result1;
 	}
