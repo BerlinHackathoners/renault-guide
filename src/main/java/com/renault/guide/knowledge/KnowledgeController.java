@@ -16,8 +16,12 @@ import java.util.Arrays;
 
 @RestController
 public class KnowledgeController {
+	private RestTemplate restTemplate = new RestTemplate();
 
-	RestTemplate restTemplate = new RestTemplate();
+	@GetMapping("/")
+	public String base() {
+		return "Hi!";
+	}
 
 	@GetMapping("/knowledge")
 	public String knowledge(String query) {
