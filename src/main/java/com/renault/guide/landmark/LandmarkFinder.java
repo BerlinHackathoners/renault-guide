@@ -22,8 +22,12 @@ public class LandmarkFinder {
 	private static String LANDMARK_PRESENTATION_INTRO = "You are approaching ";
 
 	@GetMapping("/landmarks")
-	public String landmarks(String query) {
-		return "";
+	public String landmarks(String gps) {
+		try {
+			return getLandmarks(gps);
+		} catch (Exception e) {
+			return "Error";
+		}
 	}
 
 	/**
@@ -36,7 +40,7 @@ public class LandmarkFinder {
 				.setPath("/maps/api/place/nearbysearch/json")
 				.addParameter("location", gps)
 				.addParameter("radius", Integer.toString(DETECTION_RADIUS))
-				.addParameter("type", "restaurant")
+				.addParameter("type", "museum")
 				.addParameter("keyword", "cruise")
 				.addParameter("key", "AIzaSyA60Dnf3R0MRYDjJqHrXsPLfyMqbND1FyM")
 				.build()
@@ -54,6 +58,6 @@ public class LandmarkFinder {
 			landmarksNames.add(result.name);
 		}
 
-		return LANDMARK_PRESENTATION_INTRO + String.join(", ", landmarksNames);
+		return LANDMARK_PRESENTATION_INTRO + String.join(", ", landmarksNames) + ".";
 	}
 }
