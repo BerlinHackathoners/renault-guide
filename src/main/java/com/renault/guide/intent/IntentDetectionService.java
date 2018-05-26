@@ -53,6 +53,10 @@ public class IntentDetectionService {
         {
             return "Thank you for using Renault agent. Enjoy rest of the tour.";
         }
+        else if(intent.equals("EVENT"))
+        {
+            return "There is special gala with Vanesha Diaz happening here from 25 to 27the May";
+        }
         else
         {
             return "I don't understand your question";
