@@ -11,11 +11,6 @@ public class KnowledgeController {
 	@Autowired
 	private KnowledgeService knowledgeService;
 
-	@GetMapping("/")
-	public String base() {
-		return "Hi!";
-	}
-
 	@GetMapping("/knowledge")
 	public String knowledge(String query) {
 		try {

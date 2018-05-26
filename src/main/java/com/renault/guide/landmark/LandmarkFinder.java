@@ -18,8 +18,8 @@ import java.util.List;
 @RestController
 public class LandmarkFinder {
 	private RestTemplate restTemplate = new RestTemplate();
-	private static int DETECTION_RADIUS = 50;
-	private static String LANDMARK_PRESENTATION_INTRO = "You are approaching ";
+	private static final int DETECTION_RADIUS = 50;
+	private static final String LANDMARK_PRESENTATION_INTRO = "You are approaching ";
 
 	@GetMapping("/landmarks")
 	public String landmarks(String gps) {
@@ -58,6 +58,6 @@ public class LandmarkFinder {
 			landmarksNames.add(result.name);
 		}
 
-		return LANDMARK_PRESENTATION_INTRO + String.join(", ", landmarksNames) + ".";
+		return (LANDMARK_PRESENTATION_INTRO + String.join(", ", landmarksNames) + ".").replaceAll(", ([A-zÀ-úA-zÀ-ÿA-Za-zÀ-ÿ\\s]*)$", " and $1.");
 	}
 }

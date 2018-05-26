@@ -14,7 +14,7 @@ public class IntentDetectionController {
 		try {
 			return intentDetectionService.getIntentAndEntity(query);
 		} catch (Exception e) {
-			return "There has been an error.";
+			return "I'm sorry, I didn't understand what you said.";
 		}
 	}
 }

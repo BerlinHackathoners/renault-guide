@@ -12,6 +12,8 @@ import java.net.URI;
 
 @Component
 public class IntentDetectionService {
+	private RestTemplate restTemplate = new RestTemplate();
+
 	private final static String URL = "https://api.dialogflow.com/v1/query";
 	private static final String ACCESS_TOKEN = "6fd2973c9a8d41af9dfab01de74a69b4";
 	private static final String SESSION_ID = "4437d5f2-8c8e-4f59-b7eb-78cfd47bba79";
@@ -21,7 +23,6 @@ public class IntentDetectionService {
 	private KnowledgeService knowledgeService;
 
 	public String getIntentAndEntity(String query) throws Exception {
-		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", "Bearer " + ACCESS_TOKEN);
@@ -32,20 +33,20 @@ public class IntentDetectionService {
 				.queryParam("sessionId", SESSION_ID)
 				.queryParam("query", query)
 				.build().encode().toUri();
-		ResponseEntity<ApiResponse> response
-				= restTemplate.exchange(uri, HttpMethod.GET, entity, ApiResponse.class);
+		ResponseEntity<ApiResponse> response = restTemplate.exchange(uri, HttpMethod.GET, entity, ApiResponse.class);
 
 		String intent = response.getBody().getResult().getMetaData().getIntentName();
 		String places = response.getBody().getResult().getParameters().getPlaces();
 
-		if (intent.equals("INFORMATION")) {
-			return knowledgeService.getWikiExtract(response.getBody().getResult().getParameters().getPlaces());
-		} else if (intent.equals("DROP")) {
-			return "Finding nearby parking to drop you at " + places;
-		} else if (intent.equals("stop_talking")) {
-			return "Thank you for using Renault agent. Enjoy the rest of the tour.";
-		} else {
-			return "I don't understand your question";
+		switch (intent) {
+			case "INFORMATION":
+				return knowledgeService.getWikiExtract(response.getBody().getResult().getParameters().getPlaces());
+			case "DROP":
+				return "Finding nearby parking to drop you at " + places + ". Have a nice visit!";
+			case "stop_talking":
+				return "Thank you for using Renault agent. Enjoy the rest of the tour.";
+			default:
+				return "I'm sorry, I didn't understand your question.";
 		}
 	}
 }
