@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class UIController {
 	@GetMapping("/map")
 	public String map() {
-		return "index";
+		return "map";
+	}
+
+	@GetMapping("/map2")
+	public String map2() {
+		return "map2";
 	}
 }

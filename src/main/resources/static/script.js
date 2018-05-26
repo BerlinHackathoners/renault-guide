@@ -15,6 +15,8 @@ var lastVertex = 1;
 var step = 5; // 5; // metres
 var eol = [];
 
+var lastPosition = 0;
+
 window.initialize = initialize;
 window.setRoutes = setRoutes;
 
@@ -202,7 +204,7 @@ function animate(index, d, tick) {
     }
     var p = polyLine[index].GetPointAtDistance(d);
     marker[index].setPosition(p);
-    var heading = google.maps.geometry.spherical.computeHeading(lastVertex, p);
+    var heading = google.maps.geometry.spherical.computeHeading(lastPosition, p);
     marker[index].icon.rotation = heading;
     updatePoly(index, d);
     timerHandle[index] = setTimeout("animate(" + index + "," + (d + step) + ")", tick || 100);
