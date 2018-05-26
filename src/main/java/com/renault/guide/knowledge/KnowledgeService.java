@@ -115,6 +115,6 @@ public class KnowledgeService {
 		HttpEntity<String> entity = new HttpEntity<>(new HttpHeaders());
 		ResponseEntity<WikiExtract> exchange = restTemplate.exchange(uri, HttpMethod.GET, entity, WikiExtract.class);
 
-		return exchange.getBody().getExtract();
+		return exchange.getBody().getExtract().split("\\.")[0];
 	}
 }
