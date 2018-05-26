@@ -9,6 +9,11 @@ public class IntentDetectionController {
 	@Autowired
 	private IntentDetectionService intentDetectionService;
 
+	@GetMapping("/")
+	public String base() {
+		return "Hi!";
+	}
+
 	@GetMapping("/intent")
 	public String intent(String query) {
 		try {

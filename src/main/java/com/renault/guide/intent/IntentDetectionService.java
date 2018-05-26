@@ -1,6 +1,6 @@
 package com.renault.guide.intent;
 
-import com.renault.guide.intent.dto.ApiResponse;
+import com.renault.guide.intent.domain.ApiResponse;
 import com.renault.guide.knowledge.KnowledgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;

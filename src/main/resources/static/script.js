@@ -12,7 +12,7 @@ var startLoc = [];
 var endLoc = [];
 
 var lastVertex = 1;
-var step = 50; // 5; // metres
+var step = 5; // 5; // metres
 var eol = [];
 
 window.initialize = initialize;
@@ -49,7 +49,14 @@ function createMarker(latlng, label, html) {
         position: latlng,
         map: map,
         title: label,
-        zIndex: 10
+        zIndex: 10,
+        icon: {
+              url: "https://image.ibb.co/gxU3rT/zoe_marker.png",
+              size: new google.maps.Size(32, 48),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(16, 24),
+//              scaledSize: new google.maps.Size(25, 25)
+        }
     });
     marker.myname = label;
     // Adding click listener to open up info window when marker is clicked
@@ -73,12 +80,12 @@ function setRoutes() {
     var startVal = document.getElementById("start").value
     var endVal = document.getElementById("end").value;
     if (!startVal || !endVal){
-        toggleError( "Please enter both start and end locations.");
+        toggleError("Please enter both start and end locations.");
         return;
     }
     // Just to avoid weird case of same start and end location
     if (startVal === endVal){
-        toggleError( "Please enter different locations in both inputs");
+        toggleError("Please enter different locations in both inputs");
         return;
     }
     startLoc[0] = startVal;
@@ -117,7 +124,7 @@ function makeRouteCallback(routeNum, disp, rendererOptions) {
         return;
     }
     return function (response, status) {
-        // if directions service successfully returns and no polylines exist already, then do the following
+        // If directions service successfully returns and no polylines exist already, then do the following
         if (status == google.maps.DirectionsStatus.ZERO_RESULTS){
             toggleError("No routes available for selected locations");
             return;
@@ -125,7 +132,7 @@ function makeRouteCallback(routeNum, disp, rendererOptions) {
         if (status == google.maps.DirectionsStatus.OK) {
             startLocation[routeNum] = new Object();
             endLocation[routeNum] = new Object();
-            // set up polyline for current route
+            // Set up polyline for current route
             polyLine[routeNum] = new google.maps.Polyline({
                 path: [],
                 strokeColor: '#FFFF00',
@@ -195,6 +202,8 @@ function animate(index, d, tick) {
     }
     var p = polyLine[index].GetPointAtDistance(d);
     marker[index].setPosition(p);
+    var heading = google.maps.geometry.spherical.computeHeading(lastVertex, p);
+    marker[index].icon.rotation = heading;
     updatePoly(index, d);
     timerHandle[index] = setTimeout("animate(" + index + "," + (d + step) + ")", tick || 100);
 }
