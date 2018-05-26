@@ -1,7 +1,8 @@
 package com.renault.guide.intent;
 
-import com.renault.guide.intent.dto.ApiResponse;
+import com.renault.guide.intent.domain.ApiResponse;
 import com.renault.guide.knowledge.KnowledgeController;
+import com.renault.guide.knowledge.KnowledgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class IntentDetectionService {
     private final static String API_VERSION = "20150910";
 
     @Autowired
-    private KnowledgeController knowledgeController;
+    private KnowledgeService knowledgeService;
 
 
     public String getIntentAndEntity(String query) throws Exception {
@@ -43,7 +44,7 @@ public class IntentDetectionService {
 
         if(intent.equals("INFORMATION"))
         {
-            return knowledgeController.getWikiExtract(response.getBody().getResult().getParameters().getPlaces());
+            return knowledgeService.getWikiExtract(response.getBody().getResult().getParameters().getPlaces());
         }
         else if(intent.equals("DROP"))
         {
@@ -63,4 +64,5 @@ public class IntentDetectionService {
         }
 
     }
+
 }
