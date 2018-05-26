@@ -10,13 +10,33 @@
 	<script type="text/javascript"
 	        src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyDX1Q5RuN4KNMh4TJYZcJfkSBVwhQmOruU&sensor=false"></script>
 	<script type="text/javascript" src="script2.js"></script>
+	<script type="text/javascript" src="sound.js"></script>
 </head>
 
 <body>
 <div id="tools">start:
+	<!--<h1 class="center" id="headline">Renault Challenge - Autonomous Driver by The Berliners</h1>-->
+
 	<input type="text" name="Start" id="start" value="Métro Louvre Rivoli, Paris, France"/>end:
 	<input type="text" name="Destination" id="end" value="Métro Tuileries, Paris, France"/>
 	<input type="submit" onclick="calcRoute();"/>
+
+	<div class="right">
+		<button id="start_button" onclick="startButton(event)">
+			<img id="start_img" src="mic.gif" alt="Start"></button>
+	</div>
+	<div id="results">
+		<span id="final_span" class="final"></span>
+		<span id="interim_span" class="interim"></span>
+		<p>
+	</div>
+	<!--<div class="center">-->
+		<!--<div id="div_language">-->
+			<!--<select id="select_language" onchange="updateCountry()"></select>-->
+			<!--&nbsp;&nbsp;-->
+			<!--<select id="select_dialect"></select>-->
+		<!--</div>-->
+	<!--</div>-->
 </div>
 <div id="map_canvas" style="width:100%;height:90%;"></div>
 </body>
