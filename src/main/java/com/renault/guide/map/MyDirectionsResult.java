@@ -1,6 +1,5 @@
 package com.renault.guide.map;
 
-import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.GeocodedWaypoint;
 import java.io.Serializable;
 
