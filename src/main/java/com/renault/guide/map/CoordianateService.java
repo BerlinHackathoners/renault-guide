@@ -74,20 +74,20 @@ public class CoordianateService
     ResponseEntity<MyDirectionsResult> exchange = restTemplate.exchange(uri, HttpMethod.GET, entity, MyDirectionsResult.class);
     System.out.println(exchange.getBody());
     MyDirectionsResult derectionResult = exchange.getBody();
-//    DirectionsLeg directionsLeg = derectionResult.routes[0].legs[0];
-//
-//    for (DirectionsStep directionsStep : directionsLeg.steps) {
-//
-//      locations.add(String.valueOf(directionsStep.endLocation.lat) + "," + String
-//          .valueOf(directionsStep.endLocation.lng));
-//
-//      locations.add(String.valueOf(directionsStep.startLocation.lat) + "," + String
-//          .valueOf(directionsStep.startLocation.lng));
-//    }
-//
-//    locations.add(endLat + "," + endLng);
-//
-//    locationsIterator = locations.iterator();
+    MyDirectionsLeg directionsLeg = derectionResult.routes[0].legs[0];
+
+    for (MyDirectionsStep directionsStep : directionsLeg.steps) {
+
+      locations.add(String.valueOf(directionsStep.end_location.lat) + "," + String
+          .valueOf(directionsStep.end_location.lng));
+
+      locations.add(String.valueOf(directionsStep.start_location.lat) + "," + String
+          .valueOf(directionsStep.start_location.lng));
+    }
+
+    locations.add(endLat + "," + endLng);
+
+    locationsIterator = locations.iterator();
 
     return locations.get(0);
   }

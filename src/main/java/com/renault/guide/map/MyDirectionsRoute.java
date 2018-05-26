@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class MyDirectionsRoute implements Serializable {
   private static final long serialVersionUID = 1L;
   public String summary;
-  public DirectionsLeg[] legs;
+  public MyDirectionsLeg[] legs;
   public int[] waypointOrder;
   public Bounds bounds;
   public String copyrights;
