@@ -24,7 +24,7 @@ public class LandmarkFinder {
 	@GetMapping("/landmarks")
 	public String landmarks(String gps) {
 		try {
-			return getLandmarks(gps);
+			return getLandmarkPresentationIntro(gps);
 		} catch (Exception e) {
 			return "Error";
 		}
@@ -33,14 +33,14 @@ public class LandmarkFinder {
 	/**
 	 * https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=AIzaSyA60Dnf3R0MRYDjJqHrXsPLfyMqbND1FyM
 	 */
-	private String getLandmarks(String gps) throws Exception {
+	private List<String> getLandmarks(String gps, String locationType) throws Exception {
 		final URI uri = new URIBuilder()
 				.setScheme("https")
 				.setHost("maps.googleapis.com")
 				.setPath("/maps/api/place/nearbysearch/json")
 				.addParameter("location", gps)
 				.addParameter("radius", Integer.toString(DETECTION_RADIUS))
-				.addParameter("type", "museum")
+				.addParameter("type", locationType)
 				.addParameter("keyword", "cruise")
 				.addParameter("key", "AIzaSyA60Dnf3R0MRYDjJqHrXsPLfyMqbND1FyM")
 				.build()
@@ -57,7 +57,25 @@ public class LandmarkFinder {
 		for (PlacesSearchResult result : results) {
 			landmarksNames.add(result.name);
 		}
+		return landmarksNames;
 
-		return (LANDMARK_PRESENTATION_INTRO + String.join(", ", landmarksNames) + ".").replaceAll(", ([A-zÀ-úA-zÀ-ÿA-Za-zÀ-ÿ\\s]*)$", " and $1.");
+	}
+
+	private String getLandmarkPresentationIntro(String gps) throws Exception
+	{
+		List<String> landmarksNames = new ArrayList<>();
+		landmarksNames.addAll(getLandmarks(gps, "museum"));
+		landmarksNames.addAll(getLandmarks(gps, "park"));
+		landmarksNames.addAll(getLandmarks(gps, "church"));
+		landmarksNames.addAll(getLandmarks(gps, "city_hall"));
+		if (landmarksNames.size() == 0)
+		{
+			return "";
+		}
+		else
+		{
+			return (LANDMARK_PRESENTATION_INTRO + String.join(", ", landmarksNames) + ".").replaceAll(", ([A-zÀ-úA-zÀ-ÿA-Za-zÀ-ÿ\\s]*)$", " and $1.");
+		}
+
 	}
 }
