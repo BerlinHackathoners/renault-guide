@@ -1,8 +1,15 @@
 html {
-  height: 100%;
+	height: 100%;
 }
 body {
-  height: 100%;
-  margin: 0px;
-  font-family: Helvetica, Arial;
+	height: 100%;
+	margin: 0px;
+	font-family: Helvetica, Arial;
+}
+.tool {
+	padding: 10px;
+}
+input {
+	height: 20px;
+	padding: 3px;
 }
